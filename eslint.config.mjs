@@ -48,7 +48,7 @@ export default [
       '@typescript-eslint/no-var-requires': 'error',
       '@typescript-eslint/no-empty-function': 'error',
       'prettier/prettier': [
-        'warning',
+        'warn',
         {
           endOfLine: 'auto'
         }
