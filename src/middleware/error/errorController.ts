@@ -18,7 +18,6 @@ export class AppError extends Error implements IAppError {
 }
 
 const handleCastErrorDB = (err: IDatabaseError): AppError => {
-  if (err.kind == 'ObjectId') return new AppError('Invalid id', 400)
   const message: string = `Invalid ${err.path}: ${err.value}`
   return new AppError(message, 400)
 }
