@@ -1,17 +1,18 @@
-import express, { type Application, type Request, type Response } from 'express'
 import 'dotenv/config'
-import { notFound } from './controllers/notFoundController'
-import { globalErrorHandler } from './controllers/errorController'
+import { MONGO_URI } from './config'
+import mongoose from 'mongoose'
+import web from './middleware/web'
+const dbUrl: string = MONGO_URI
 
-const app: Application = express()
-const port: number = Number(process.env.PORT) || 3000
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
+// Connect to MongoDB
+mongoose.connect(dbUrl)
+const connection = mongoose.connection
+connection.once('open', function () {
+  console.log('Connection to MongoDB established succesfully!')
 })
 
-app.all('*', notFound)
-app.use(globalErrorHandler)
-app.listen(port, () => {
-  console.log(`Server is running on port http://localhost:${port}`)
+// Start web server
+const port: number = Number(process.env.PORT) || 3000
+web.listen(port, () => {
+  console.log(`Example app listening on http://localhost:${port}`)
 })
