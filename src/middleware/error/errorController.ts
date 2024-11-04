@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
-import logger from '../utils/logger'
-import { IAppError, IDatabaseError } from '../types/errorTypes'
+import logger from '../../utils/logger'
+import { IAppError, IDatabaseError } from '../../types/errorTypes'
 
 export class AppError extends Error implements IAppError {
   public statusCode: number
@@ -18,6 +18,7 @@ export class AppError extends Error implements IAppError {
 }
 
 const handleCastErrorDB = (err: IDatabaseError): AppError => {
+  if (err.kind == 'ObjectId') return new AppError('Invalid id', 400)
   const message: string = `Invalid ${err.path}: ${err.value}`
   return new AppError(message, 400)
 }
@@ -84,12 +85,12 @@ export const globalErrorHandler = (err: Error, req: Request, res: Response): voi
   } else if (process.env.NODE_ENV === 'production') {
     let handledError: IAppError = { ...error }
     handledError.message = err.message
-
-    if (error.name === 'CastError') handledError = handleCastErrorDB(error as IDatabaseError)
-    if ((error as IDatabaseError).code === 11000)
-      handledError = handleDuplicateFieldsDB(error as IDatabaseError)
+    if (error.name === 'CastError')
+      handledError = handleCastErrorDB(error as unknown as IDatabaseError)
+    if ((error as unknown as IDatabaseError).code === 11000)
+      handledError = handleDuplicateFieldsDB(error as unknown as IDatabaseError)
     if (error.name === 'ValidationError')
-      handledError = handleValidationErrorDB(error as IDatabaseError)
+      handledError = handleValidationErrorDB(error as unknown as IDatabaseError)
     if (error.name === 'JsonWebTokenError') handledError = handleJWTError()
     if (error.name === 'TokenExpiredError') handledError = handleJWTExpiredError()
 
