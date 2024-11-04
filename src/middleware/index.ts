@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import app from '../routes'
 
 // configure  express middleware and cors
 const appMiddleware = express()
@@ -15,5 +16,6 @@ appMiddleware.use(
 appMiddleware.options('*', cors())
 appMiddleware.use(express.json())
 appMiddleware.use(express.urlencoded({ extended: true }))
+appMiddleware.use(app)
 
 export default appMiddleware
