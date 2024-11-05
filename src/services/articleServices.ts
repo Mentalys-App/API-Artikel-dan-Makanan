@@ -11,4 +11,9 @@ const getArticleById = async (id: string): Promise<IArticle | null> => {
   return article
 }
 
-export { getArticle, getArticleById }
+const createArticle = async (payload: IArticle): Promise<IArticle> => {
+  const newArticle = await Article.create(payload)
+  return newArticle
+}
+
+export { getArticle, getArticleById, createArticle }
