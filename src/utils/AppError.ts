@@ -1,9 +1,4 @@
-// Tipe IAppError untuk mendefinisikan struktur kesalahan aplikasi
-export interface IAppError extends Error {
-  statusCode: number
-  status: string
-  isOperational?: boolean
-}
+import { IAppError } from '@/types/errorTypes'
 
 // Fungsi untuk membuat objek kesalahan terstruktur
 export const AppError = (message: string, statusCode: number): IAppError => {
