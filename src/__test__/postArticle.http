@@ -1,0 +1,62 @@
+### Test POST Article - Success Case
+POST http://localhost:3000/api/v1/article
+Content-Type: application/json
+
+{
+  "title": "Mengatasi Stres dengan Teknik Relaksasi",
+  "url": "https://example.com/gambar-relaksasi.jpg",
+  "mental_state": "stres",
+  "content": {
+    "pendahuluan": "Stres adalah kondisi umum yang dialami banyak orang.",
+    "apa_itu": "Stres adalah respons tubuh terhadap tekanan atau tuntutan.",
+    "penyebab": [
+      {
+        "judul": "Tekanan Pekerjaan",
+        "isi": "Beban kerja yang berat dapat menyebabkan stres."
+      }
+    ],
+    "gejala": {
+      "fisik": "Kelelahan, sakit kepala, dan otot tegang.",
+      "emosional": "Cemas, mudah marah, dan frustrasi.",
+      "perilaku": "Menghindari tugas, pola tidur terganggu."
+    },
+    "tips": [
+      "Meditasi harian",
+      "Olahraga rutin"
+    ],
+    "kapan_mencari_bantuan": "Jika stres terus berlanjut hingga mengganggu aktivitas sehari-hari."
+  },
+  "author": "Dr. Amanda",
+  "summary": "Panduan tentang cara mengelola stres melalui teknik relaksasi.",
+  "tags": ["kesehatan mental", "relaksasi", "stres"]
+}
+
+### Test POST api/v1/article - Validation Error Case (Missing Required Field)
+POST http://localhost:3000/api/v1/article
+Content-Type: application/json
+
+{
+  "title": "",
+  "url": "invalid-url",
+  "mental_state": "emosional",
+  "content": {
+    "pendahuluan": "",
+    "apa_itu": "Penjelasan mengenai stres.",
+    "penyebab": [
+      {
+        "judul": "",
+        "isi": "Stres karena tekanan pekerjaan."
+      }
+    ],
+    "gejala": {
+      "fisik": "",
+      "emosional": "Kecemasan meningkat.",
+      "perilaku": "Menghindari tugas."
+    },
+    "tips": [],
+    "kapan_mencari_bantuan": ""
+  },
+  "author": "",
+  "summary": "Mengatasi stres dan kapan harus mencari bantuan.",
+  "tags": []
+}
