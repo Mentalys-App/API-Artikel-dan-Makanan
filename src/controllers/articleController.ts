@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import { AppError } from '@/utils/AppError'
 import { inputArticleValidation } from '@/validations/articleValidation'
 import { formatJoiError } from '@/utils/joiValidation'
+import { uploadImage } from '@/services/uploadServices'
 
 export const isValidObjectId = (id: string): boolean => {
   return mongoose.Types.ObjectId.isValid(id)
@@ -56,7 +57,37 @@ const createArticleController = async (req: Request, res: Response, next: NextFu
       return res.status(400).json(validationError)
     }
 
-    const data = await createArticle(value)
+    let imageUrl = ''
+    let htmlContent = ''
+
+    if (req.files) {
+      if (req.files && (req.files as { image: Express.Multer.File[] }).image) {
+        const imageFile = (req.files as { image: Express.Multer.File[] }).image[0]
+        imageUrl = await uploadImage(imageFile)
+      } else {
+        return res.status(400).json({
+          error: null,
+          message: 'Image file is required'
+        })
+      }
+      if ((req.files as { [fieldname: string]: Express.Multer.File[] }).html) {
+        const htmlFile = (req.files as { [fieldname: string]: Express.Multer.File[] }).html[0]
+        htmlContent = htmlFile.buffer.toString('utf8')
+      } else {
+        return res.status(400).json({
+          error: null,
+          message: 'HTML file is required'
+        })
+      }
+    }
+
+    const articleData = {
+      ...value,
+      urlImage: imageUrl,
+      contentHtml: htmlContent
+    }
+
+    const data = await createArticle(articleData)
     return res.status(201).json({
       error: null,
       message: 'Article created successfully',
