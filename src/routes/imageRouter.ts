@@ -3,7 +3,8 @@ import {
   uploadImageController,
   getImagesController,
   getImageByIdController,
-  deleteImageController
+  deleteImageController,
+  updateImageController
 } from '../controllers/imageController'
 
 const imageRouter = Router()
@@ -19,8 +20,13 @@ imageRouter.get('/images', (req: Request, res: Response, next: NextFunction) => 
 })
 
 // Get Image by ID
-imageRouter.get('/images:id', (req: Request, res: Response, next: NextFunction) => {
+imageRouter.get('/images/:id', (req: Request, res: Response, next: NextFunction) => {
   getImageByIdController(req, res, next)
+})
+
+// Update Image by ID
+imageRouter.patch('/images/:id', (req: Request, res: Response, next: NextFunction) => {
+  updateImageController(req, res, next)
 })
 
 // Delete Image by ID
