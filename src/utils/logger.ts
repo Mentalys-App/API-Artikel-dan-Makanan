@@ -1,6 +1,14 @@
 import winston from 'winston'
 import path from 'path'
+import fs from 'fs'
 
+// Membuat direktori log jika belum ada
+const logDirectory = path.join(__dirname, '../logs')
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory)
+}
+
+// Konfigurasi Winston logger
 const logger: winston.Logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
@@ -14,15 +22,16 @@ const logger: winston.Logger = winston.createLogger({
   defaultMeta: { service: 'Mentalys App API' },
   transports: [
     new winston.transports.File({
-      filename: path.join(__dirname, '../logs/error.log'),
+      filename: path.join(logDirectory, 'error.log'),
       level: 'error'
     }),
     new winston.transports.File({
-      filename: path.join(__dirname, '../logs/combined.log')
+      filename: path.join(logDirectory, 'combined.log')
     })
   ]
 })
 
+// Tambahkan transport console jika bukan di production
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
