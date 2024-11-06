@@ -1,5 +1,6 @@
 import multer, { Multer } from 'multer'
 import { Request } from 'express'
+import { AppError } from '@/utils/AppError'
 
 const upload: Multer = multer({
   storage: multer.memoryStorage(),
@@ -11,16 +12,16 @@ const upload: Multer = multer({
       if (file.mimetype.startsWith('image/')) {
         cb(null, true)
       } else {
-        cb(new Error('Invalid image file type. Please upload a valid image file.'))
+        cb(AppError('Invalid image file type. Please upload a valid image file.', 415))
       }
     } else if (file.fieldname === 'html') {
       if (file.mimetype === 'text/html') {
         cb(null, true)
       } else {
-        cb(new Error('Invalid file type. Please upload an HTML file.'))
+        cb(AppError('Invalid file type. Please upload an HTML file.', 415))
       }
     } else {
-      cb(new Error('Unexpected field. Please check your request.'))
+      cb(AppError('Unexpected field. Please check your request.', 400))
     }
   }
 })
