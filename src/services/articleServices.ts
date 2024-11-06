@@ -115,3 +115,8 @@ export const createArticle = async (
   const newArticle: IArticle = await Article.create(payload)
   return newArticle
 }
+
+export const deleteArticle = async (id: string): Promise<IArticle | null> => {
+  const article: IArticle | null = await Article.findByIdAndDelete(id)
+  return article
+}

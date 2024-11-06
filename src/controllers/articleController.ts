@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import mongoose from 'mongoose'
-import { createArticle, getArticles, getArticleById } from '../services/articleServices'
+import { createArticle, getArticles, getArticleById, deleteArticle } from '../services/articleServices'
 import { AppError } from '@/utils/AppError'
 import { inputArticleValidation } from '@/validations/articleValidation'
 import { formatJoiError } from '@/utils/joiValidation'
@@ -108,6 +108,34 @@ export const createArticleController = async (
     return res.status(201).json({
       error: null,
       message: 'Article created successfully',
+      data
+    })
+  } catch (error: unknown) {
+    next(error)
+  }
+}
+
+export const deleteArticleController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response<IApiResponse<IArticle | null>> | void> => {
+  try {
+    const { id } = req.params
+
+    if (!isValidObjectId(id)) {
+      return next(AppError(`Invalid id: "${id}" is not a valid ObjectId`, 400))
+    }
+
+    const data: IArticle | null = await deleteArticle(id)
+
+    if (!data) {
+      return next(AppError('Article not found', 404))
+    }
+
+    return res.status(200).json({
+      error: null,
+      message: 'Article deleted successfully',
       data
     })
   } catch (error: unknown) {

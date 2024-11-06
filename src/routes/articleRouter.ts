@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import {
   createArticleController,
+  deleteArticleController,
   getArticleByIdController,
   getArticlesController
 } from '../controllers/articleController'
@@ -26,5 +27,9 @@ articleRouter.post(
     void createArticleController(req, res, next)
   }
 )
+
+articleRouter.delete('/article/:id', (req: Request, res: Response, next: NextFunction): void => {
+  void deleteArticleController(req, res, next)
+})
 
 export default articleRouter
