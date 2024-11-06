@@ -61,6 +61,10 @@ To run this project, you will need to add the following environment variables to
 `GOOGLE_CLOUD_PROJECT_ID`
 
 
+## Credentials
+
+Create your credentials at Google Cloud and name it 'AccountServiceKey.json' and place it into Root directory
+
 ## Screenshots
 
 ![Screenshot 2024-11-06 120208](https://github.com/user-attachments/assets/5550a3a8-dffc-4e2d-8781-da880a1344d6)
