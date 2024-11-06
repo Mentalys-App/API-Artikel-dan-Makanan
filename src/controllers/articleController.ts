@@ -100,7 +100,10 @@ export const createArticleController = async (
     }
 
     const imageUrl: string = await uploadImage(files.image[0])
-    const htmlContent: string = files.html[0].buffer.toString('utf8')
+    const htmlContent: string = files.html[0].buffer
+      .toString('utf8')
+      .replace(/(\r\n|\n|\r)/gm, '')
+      .trim()
 
     const articleData = {
       ...value,
