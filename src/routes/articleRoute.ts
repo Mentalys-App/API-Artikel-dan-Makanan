@@ -1,4 +1,3 @@
-// src/routes/articleRoute.ts
 import { Router, Request, Response, NextFunction } from 'express'
 import {
   createArticle,
