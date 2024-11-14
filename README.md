@@ -1,76 +1,361 @@
-# API Rekomendasi
+# Article and Food Libary Management API Documentation
 
-## 🚀 Fitur Utama
-
-- Rekomendasi artikel berdasarkan preferensi pengguna
-- Integrasi dengan Google Cloud Storage untuk penyimpanan data yang aman dan skalabel
-- Penggunaan TypeScript untuk keamanan tipe dan pengembangan yang lebih baik
-- Konfigurasi ESLint dan Prettier untuk menjaga kualitas dan konsistensi kode
-- Dukungan untuk pengembangan modular dan dapat diperluas
-
-## 🛠️ Teknologi yang Digunakan
-
-- Node.js
-- TypeScript
-- Google Cloud Storage
-- ESLint
-- Prettier
-
-## 🏗️ Instalasi
-
-
-Clone the project
-
-```bash
-  git clone https://github.com/Mentalys-App/api-rekomendasi.git
+## Base URL
+All endpoints can be accessed at the following base URL:
 ```
-
-Go to the project directory
-
-```bash
-  cd api-rekomendasi
-```
-
-Install dependencies
-
-```bash
-  yarn install
-```
-
-Start the server
-
-```bash
-  yarn dev
-```
-
-
-
-## Documentation
-
-[Documentation API Swagger](https://drive.google.com/file/d/1e2kJzaVn7IbT3BsWuUiCb-yoRY10f-TN/view?usp=sharing)
-
-or access by link
-
-```bash
-  http://localhost:port/api-docs
+http://localhost:3000/api/v1
 ```
 ## Environment Variables
+To run this project, add the following environment variables to your `.env` file:
 
-To run this project, you will need to add the following environment variables to your .env file
+- `PORT`: Server port (default: 3000).
+- `NODE_ENV`: development or production.
+# Dokumentasi API Artikel Rekomendasi
+## Endpoints
 
-`MONGO_URI`
-`PORT`
-`NODE_ENV`
-`GOOGLE_CLOUD_BUCKET_NAME`
-`GOOGLE_CLOUD_PROJECT_ID`
+### 1. Create Article
+- **URL**: `/article`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "title": "Article Title",
+    "author": {
+      "name": "Author Name",
+      "id": "Author ID",
+      "profile_image": "Profile Image URL",
+      "bio": "Author Bio"
+    },
+    "metadata": {
+      "publish_date": "2024-11-06T00:00:00Z",
+      "last_updated": "2024-11-06T00:00:00Z",
+      "tags": ["tag1", "tag2"],
+      "category": "Article Category",
+      "reading_time": 5,
+      "likes": 0,
+      "views": 0,
+      "mental_state": "anxiety",
+      "image_link": "https://example.com/image.jpg"
+    },
+    "content": [
+      {
+        "type": "header",
+        "level": 1,
+        "text": "Header Content"
+      },
+      {
+        "type": "paragraph",
+        "text": "Paragraph content."
+      }
+    ]
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "id": "Article ID",
+    "message": "Article created successfully"
+  }
+  ```
+- **Error Response**:
+  - `400 Bad Request`: If any required field is missing or invalid.
 
+### 2. Get All Articles
+- **URL**: `/article`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "message": "Articles retrieved successfully",
+    "data": {
+      "count": 2,
+      "articles": [
+        {
+          "id": "Article ID",
+          "title": "Article Title",
+          "metadata": {
+            "publish_date": "2024-11-06T00:00:00Z",
+            "last_updated": "2024-11-06T00:00:00Z",
+            "tags": ["tag1", "tag2"],
+            "category": "Article Category",
+            "reading_time": 5,
+            "likes": 0,
+            "views": 0
+          }
+        }
+      ]
+    }
+  }
+  ```
 
-## Credentials
+### 3. Get Article by ID
+- **URL**: `/article/:id`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "message": "Article retrieved successfully",
+    "data": {
+      "id": "Article ID",
+      "title": "Article Title",
+      "author": {
+        "name": "Author Name",
+        "id": "Author ID",
+        "profile_image": "Profile Image URL",
+        "bio": "Author Bio"
+      },
+      "metadata": {
+        "publish_date": "2024-11-06T00:00:00Z",
+        "last_updated": "2024-11-06T00:00:00Z",
+        "tags": ["tag1", "tag2"],
+        "category": "Article Category",
+        "reading_time": 5,
+        "likes": 0,
+        "views": 0,
+        "mental_state": "anxiety",
+        "image_link": "https://example.com/image.jpg"
+      },
+      "content": [
+        {
+          "type": "header",
+          "level": 1,
+          "text": "Header Content"
+        },
+        {
+          "type": "paragraph",
+          "text": "Paragraph content."
+        }
+      ]
+    }
+  }
+  ```
+- **Error Response**:
+  - `404 Not Found`: If the article with the given ID is not found.
 
-Create your credentials at Google Cloud and name it 'AccountServiceKey.json' and place it into Root directory
+### 4. Delete Article
+- **URL**: `/article/:id`
+- **Method**: `DELETE`
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "message": "Article deleted successfully"
+  }
+  ```
+- **Error Response**:
+  - `404 Not Found`: If the article with the given ID is not found.
 
-## Screenshots
+## Usage Example
 
-![Screenshot 2024-11-06 120208](https://github.com/user-attachments/assets/5550a3a8-dffc-4e2d-8781-da880a1344d6)
-![Screenshot 2024-11-06 003418](https://github.com/user-attachments/assets/f0c3bfd6-35ed-4ef0-a968-61bf59c8852a)
+### Create Article
+```bash
+curl -X POST http://localhost:3000/api/v1/article \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Article Title",
+  "author": {
+    "name": "Author Name",
+    "id": "Author ID",
+    "profile_image": "Profile Image URL",
+    "bio": "Author Bio"
+  },
+  "metadata": {
+    "publish_date": "2024-11-06T00:00:00Z",
+    "last_updated": "2024-11-06T00:00:00Z",
+    "tags": ["tag1", "tag2"],
+    "category": "Article Category",
+    "reading_time": 5,
+    "likes": 0,
+    "views": 0,
+    "mental_state": "anxiety",
+    "image_link": "https://example.com/image.jpg"
+  },
+  "content": [
+    {
+      "type": "header",
+      "level": 1,
+      "text": "Header Content"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paragraph content."
+    }
+  ]
+}'
+```
 
+### Get All Articles
+```bash
+curl -X GET http://localhost:3000/api/v1/article
+```
+
+### Get Article by ID
+```bash
+curl -X GET http://localhost:3000/api/v1/article/ARTICLE_ID
+```
+
+### Delete Article
+```bash
+curl -X DELETE http://localhost:3000/api/v1/article/ARTICLE_ID
+```
+# Dokumentasi API Library Makanan
+
+## Endpoint
+
+### 1. Membuat Makanan
+- **URL**: `/food`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "name": "Nama Makanan",
+    "description": "Deskripsi Makanan",
+    "category": "Kategori Makanan",
+    "imageUrl": "https://example.com/image.jpg"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "Food created successfully",
+    "data": {
+      "id": "ID Makanan",
+      "name": "Nama Makanan",
+      "description": "Deskripsi Makanan",
+      "category": "Kategori Makanan",
+      "imageUrl": "https://example.com/image.jpg"
+    }
+  }
+  ```
+- **Error Response**:
+  - `400 Bad Request`: Jika ada field yang hilang atau tidak valid.
+
+### 2. Mengambil Semua Makanan
+- **URL**: `/food`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "message": "Foods retrieved successfully",
+    "data": [
+      {
+        "id": "ID Makanan",
+        "name": "Nama Makanan",
+        "description": "Deskripsi Makanan",
+        "category": "Kategori Makanan",
+        "imageUrl": "https://example.com/image.jpg"
+      },
+      {
+        "id": "ID Makanan 2",
+        "name": "Nama Makanan 2",
+        "description": "Deskripsi Makanan 2",
+        "category": "Kategori Makanan 2",
+        "imageUrl": "https://example.com/image2.jpg"
+      }
+    ]
+  }
+  ```
+
+### 3. Mengambil Makanan Berdasarkan ID
+- **URL**: `/food/:id`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "message": "Food retrieved successfully",
+    "data": {
+      "id": "ID Makanan",
+      "name": "Nama Makanan",
+      "description": "Deskripsi Makanan",
+      "category": "Kategori Makanan",
+      "imageUrl": "https://example.com/image.jpg"
+    }
+  }
+  ```
+- **Error Response**:
+  - `404 Not Found`: Jika makanan dengan ID yang diberikan tidak ditemukan.
+
+### 4. Memperbarui Makanan
+- **URL**: `/food/:id`
+- **Method**: `PUT`
+- **Request Body**:
+  ```json
+  {
+    "name": "Nama Makanan Baru",
+    "description": "Deskripsi Makanan Baru",
+    "category": "Kategori Makanan Baru",
+    "imageUrl": "https://example.com/image-baru.jpg"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "Food updated successfully",
+    "data": {
+      "id": "ID Makanan",
+      "name": "Nama Makanan Baru",
+      "description": "Deskripsi Makanan Baru",
+      "category": "Kategori Makanan Baru",
+      "imageUrl": "https://example.com/image-baru.jpg"
+    }
+  }
+  ```
+- **Error Response**:
+  - `404 Not Found`: Jika makanan dengan ID yang diberikan tidak ditemukan.
+  - `400 Bad Request`: Jika ada field yang tidak valid.
+
+### 5. Menghapus Makanan
+- **URL**: `/food/:id`
+- **Method**: `DELETE`
+- **Response**:
+  ```json
+  {
+    "status": "success",
+    "message": "Food deleted successfully"
+  }
+  ```
+- **Error Response**:
+  - `404 Not Found`: Jika makanan dengan ID yang diberikan tidak ditemukan.
+
+## Contoh Penggunaan
+
+Berikut adalah contoh penggunaan API menggunakan `curl`:
+
+### Membuat Makanan
+```bash
+curl -X POST http://localhost:3000/api/v1/food \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Nama Makanan",
+  "description": "Deskripsi Makanan",
+  "category": "Kategori Makanan",
+  "imageUrl": "https://example.com/image.jpg"
+}'
+```
+
+### Mengambil Semua Makanan
+```bash
+curl -X GET http://localhost:3000/api/v1/food
+```
+
+### Mengambil Makanan Berdasarkan ID
+```bash
+curl -X GET http://localhost:3000/api/v1/food/ID_MAKANAN
+```
+
+### Memperbarui Makanan
+```bash
+curl -X PUT http://localhost:3000/api/v1/food/ID_MAKANAN \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Nama Makanan Baru",
+  "description": "Deskripsi Makanan Baru",
+  "category": "Kategori Makanan Baru",
+  "imageUrl": "https://example.com/image-baru.jpg"
+}'
+```
+
+### Menghapus Makanan
+```bash
+curl -X DELETE http://localhost:3000/api/v1/food/ID_MAKANAN
+```
