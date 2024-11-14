@@ -7,6 +7,7 @@ import {
 } from '../validations/articleValidation'
 import { Article } from '../types/articleTypes'
 import { handleFirestoreError } from '@/utils/errorHandler'
+import { AppError } from '@/utils/AppError'
 
 export const createArticle = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -14,14 +15,14 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
     const mentalState = article.metadata.mental_state
     const imageLink = article.metadata.image_link
     if (imageLink === undefined) {
-      res.status(400).json({ message: 'Image link is required' })
+      return next(AppError('Image link is required', 400))
     }
     const imageLinkError = validateImageLink(imageLink)
     if (imageLinkError) {
-      res.status(400).json({ message: imageLinkError })
+      return next(AppError(imageLinkError, 400))
     }
     if (mentalState === undefined) {
-      return res.status(400).json({ error: 'Mental state is required' })
+      return next(AppError('Mental state is required', 400))
     }
     const mentalStateError = validateMentalState(mentalState)
     if (mentalStateError) {
@@ -31,7 +32,7 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
     for (const content of article.content) {
       const validationError = validateContent(content)
       if (validationError) {
-        return res.status(400).json({ error: validationError })
+        return next(AppError(validationError, 400))
       }
     }
 
