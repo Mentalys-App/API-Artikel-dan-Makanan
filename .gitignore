@@ -10,3 +10,4 @@ AccountServiceKey.json
 .vscode
 .env
 logs
+serviceAccountKey.json
