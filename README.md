@@ -47,6 +47,10 @@ Start the server
 
 ## Documentation
 
+[Documentation API Swagger](https://drive.google.com/file/d/1e2kJzaVn7IbT3BsWuUiCb-yoRY10f-TN/view?usp=sharing)
+
+or access by link
+
 ```bash
   http://localhost:port/api-docs
 ```
@@ -61,7 +65,12 @@ To run this project, you will need to add the following environment variables to
 `GOOGLE_CLOUD_PROJECT_ID`
 
 
+## Credentials
+
+Create your credentials at Google Cloud and name it 'AccountServiceKey.json' and place it into Root directory
+
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Screenshot 2024-11-06 120208](https://github.com/user-attachments/assets/5550a3a8-dffc-4e2d-8781-da880a1344d6)
+![Screenshot 2024-11-06 003418](https://github.com/user-attachments/assets/f0c3bfd6-35ed-4ef0-a968-61bf59c8852a)
 
