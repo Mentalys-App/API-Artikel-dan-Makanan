@@ -144,6 +144,37 @@ To run this project, add the following environment variables to your `.env` file
   ```
 - **Error Response**:
   - `404 Not Found`: If the article with the given ID is not found.
+### 5. Get Articles by Mental State
+- **URL**: `/article/mental_state/:mental_state`
+- **Method**: `GET`
+- **URL Parameters**:
+  - `mental_state`: The mental state to filter articles by. Must be one of the predefined mental states (e.g., "anxiety", "MDD", "PTSD", etc.).
+
+- **Response**:
+  ```json
+  {
+    "message": "Articles retrieved successfully",
+    "data": {
+      "count": 2,
+      "articles": [
+        {
+          "id": "Article ID",
+          "title": "Article Title",
+          "metadata": {
+            "publish_date": "2024-11-06T00:00:00Z",
+            "last_updated": "2024-11-06T00:00:00Z",
+            "tags": ["tag1", "tag2"],
+            "category": "Article Category",
+            "reading_time": 5,
+            "likes": 0,
+            "views": 0
+          }
+        }
+      ]
+    }
+  }
+- **Error Response**:
+  - `404 Not Found`: If the article with the given ID is not found.
 
 ## Usage Example
 
@@ -197,6 +228,10 @@ curl -X GET http://localhost:3000/api/v1/article/ARTICLE_ID
 ### Delete Article
 ```bash
 curl -X DELETE http://localhost:3000/api/v1/article/ARTICLE_ID
+```
+### Get Articles by Mental State
+```bash
+curl -X GET http://localhost:3000/api/v1/article/mental_state/anxiety
 ```
 # Dokumentasi API Library Makanan
 
