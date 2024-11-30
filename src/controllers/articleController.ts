@@ -1,13 +1,19 @@
 import { NextFunction, Request, Response } from 'express'
-import { deleteArticle, getArticleById, getArticles, saveArticle } from '../services/articleService'
+import {
+  deleteArticle,
+  getArticleById,
+  getArticles,
+  getArticlesByMentalState,
+  saveArticle
+} from '../services/articleService'
 import {
   validateContent,
   validateImageLink,
   validateMentalState
 } from '../validations/articleValidation'
-import { Article } from '../types/articleTypes'
-import { handleFirestoreError } from '@/utils/errorHandler'
-import { AppError } from '@/utils/AppError'
+import { Article, MentalState } from '../types/articleTypes'
+import { handleFirestoreError } from '../utils/errorHandler'
+import { AppError } from '../utils/AppError'
 
 export const createArticle = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -79,6 +85,24 @@ export const deleteArticleController = async (req: Request, res: Response, next:
     res.status(200).json({
       status: 'success',
       message: 'Article deleted successfully'
+    })
+  } catch (error) {
+    console.error(error)
+    next(handleFirestoreError(error))
+  }
+}
+
+export const getArticlesByMentalStateController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const mentalState = req.params.mental_state as MentalState // Ambil mental state dari parameter URL
+    const articles = await getArticlesByMentalState(mentalState)
+    res.status(200).json({
+      message: 'Articles retrieved successfully',
+      data: articles
     })
   } catch (error) {
     console.error(error)

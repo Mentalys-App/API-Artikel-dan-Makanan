@@ -3,6 +3,7 @@ import {
   createArticle,
   deleteArticleController,
   getArticleByIdController,
+  getArticlesByMentalStateController,
   getArticlesController
 } from '../controllers/articleController'
 
@@ -25,5 +26,12 @@ articleRoute.delete('/article/:id', (req: Request, res: Response, next: NextFunc
   // Delete article by id
   deleteArticleController(req, res, next)
 })
+
+articleRoute.get(
+  '/article/mental_state/:mental_state',
+  (req: Request, res: Response, next: NextFunction) => {
+    getArticlesByMentalStateController(req, res, next)
+  }
+)
 
 export default articleRoute
