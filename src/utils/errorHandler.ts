@@ -1,4 +1,4 @@
-import { ErrorResponse } from '@/types/error'
+import { ErrorResponse } from '../types/error'
 import { FirebaseError } from 'firebase/app'
 
 export const handleFirestoreError = (error: unknown): ErrorResponse => {

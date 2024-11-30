@@ -8,9 +8,9 @@ import {
 } from '../services/foodService'
 import { validateFood } from '../validations/foodValidation'
 import { IFood } from '../types/foodTypes'
-import { handleFirestoreError } from '@/utils/errorHandler'
-import { AppError } from '@/utils/AppError'
-import { validateImageLink } from '@/validations/articleValidation'
+import { handleFirestoreError } from '../utils/errorHandler'
+import { AppError } from '../utils/AppError'
+import { validateImageLink } from '../validations/articleValidation'
 
 export const createFoodController = async (
   req: Request,
